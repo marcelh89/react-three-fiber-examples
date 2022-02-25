@@ -1,23 +1,14 @@
-import React, {useState} from 'react';
+import React, {useState, memo} from 'react';
 import {useBox} from '@react-three/cannon';
 
 import * as textures from '../textures'
-import {useStore} from "../hooks/useStore";
 
-export const Cube = ({position, texture, ...props}) => {
+const Cube = ({position, texture, addCube, removeCube}) => {
     const [hover, setHover] = useState(null);
-    const [addCube, removeCube, activeTexture] = useStore((state) => [
-        state.addCube,
-        state.removeCube,
-        state.texture
-    ]);
     const [ref] = useBox(() => ({
         type: 'Static',
         position,
-        ...props,
     }));
-
-    console.log(texture)
 
     return (
         <mesh
@@ -38,27 +29,27 @@ export const Cube = ({position, texture, ...props}) => {
                 const shouldDelete = e.altKey || e.ctrlKey || e.shiftKey;
 
                 if (clickedFace === 0) {
-                    shouldDelete ? removeCube(x, y, z) : addCube(x + 1, y, z, activeTexture)
+                    shouldDelete ? removeCube(x, y, z) : addCube(x + 1, y, z)
                     return;
                 }
                 if (clickedFace === 1) {
-                    shouldDelete ? removeCube(x, y, z) : addCube(x - 1, y, z, activeTexture)
+                    shouldDelete ? removeCube(x, y, z) : addCube(x - 1, y, z)
                     return;
                 }
                 if (clickedFace === 2) {
-                    shouldDelete ? removeCube(x, y, z) : addCube(x, y + 1, z, activeTexture)
+                    shouldDelete ? removeCube(x, y, z) : addCube(x, y + 1, z)
                     return;
                 }
                 if (clickedFace === 3) {
-                    shouldDelete ? removeCube(x, y, z) : addCube(x, y - 1, z, activeTexture)
+                    shouldDelete ? removeCube(x, y, z) : addCube(x, y - 1, z)
                     return;
                 }
                 if (clickedFace === 4) {
-                    shouldDelete ? removeCube(x, y, z) : addCube(x, y, z + 1, activeTexture)
+                    shouldDelete ? removeCube(x, y, z) : addCube(x, y, z + 1)
                     return;
                 }
                 if (clickedFace === 5) {
-                    shouldDelete ? removeCube(x, y, z) : addCube(x, y, z - 1, activeTexture)
+                    shouldDelete ? removeCube(x, y, z) : addCube(x, y, z - 1)
                     return;
                 }
             }}
@@ -78,3 +69,14 @@ export const Cube = ({position, texture, ...props}) => {
     )
 
 };
+
+function equalProps(prevProps, nextProps) {
+    const equalPosition =
+        prevProps.position.x === nextProps.position.x &&
+        prevProps.position.y === nextProps.position.y &&
+        prevProps.position.z === nextProps.position.z;
+
+    return equalPosition && prevProps.texture === nextProps.texture;
+}
+
+export default memo(Cube, equalProps);

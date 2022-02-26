@@ -6,7 +6,6 @@ import {Physics} from '@react-three/cannon'
 import {Ground} from './components/Ground';
 import {Player} from './components/Player';
 import Cubes from "./components/Cubes";
-import {Hud} from "./components/Hud";
 import Menu from "./Menu";
 
 function App() {

@@ -1,0 +1,25 @@
+.menu {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+    width: auto;
+    height: auto;
+    background-color: green;
+    border: thin solid black;
+    z-index: 1;
+    position: fixed;
+    bottom: 20px;
+    left: 100px;
+}
+
+.menu-entry{
+    margin: 0px;
+    width:45px;
+    height:45px;
+    border:thin solid black;
+}
+
+.active {
+    border-bottom: thick solid black;
+    }
